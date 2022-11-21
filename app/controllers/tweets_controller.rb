@@ -21,6 +21,12 @@ class TweetsController < ApplicationController
     end
   end
 
+  def index_by_user
+    @tweets = Tweet.find_by(username: params[:username])
+
+    render 'tweets/find_by_user'
+  end
+
   private
 
   def tweet_params
