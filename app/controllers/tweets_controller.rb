@@ -1,21 +1,20 @@
 class TweetsController < ApplicationController
   def index
-    @tweets = Tweet.all
+    @tweets = Tweet.all.order(created_at: :desc)
+
     render 'tweets/index'
   end
 
   def create
     @tweet = Tweet.new(tweet_params)
 
-    if @tweet.save
-      render 'tweets/create'
-    end
+    render 'tweets/create' if @tweet.save!
   end
 
   def destroy
-    @tweets = Tweet.find_by(user_id: params[:user_id])
+    @tweets = Tweet.find_by(id: params[:id])
 
-    if @tweet and @tweet.destroy
+    if @tweet&.destroy
       render json: { success: true }
     else
       render json: { success: false }
@@ -24,8 +23,7 @@ class TweetsController < ApplicationController
 
   private
 
-    def tweet_params
-      params.require(:tweet).permit(:message)
-    end
-  
+  def tweet_params
+    params.require(:tweet).permit(:message)
+  end
 end
