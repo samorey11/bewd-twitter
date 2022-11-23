@@ -22,14 +22,14 @@ class TweetsController < ApplicationController
   end
 
   def index_by_user
-    @tweets = Tweet.find_by(username: params[:username])
+    @tweets = Tweet.find_by(user_id: params[:user_id])
 
-    render 'tweets/find_by_user'
+    render 'tweets/index_by_user'
   end
 
   private
 
   def tweet_params
-    params.require(:tweet).permit(:message)
+    params.require(:tweet).permit(:message, :user_id)
   end
 end
